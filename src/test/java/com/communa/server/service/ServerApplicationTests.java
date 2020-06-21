@@ -1,6 +1,6 @@
 package com.communa.server.service;
 
-import com.communa.server.entity.Resident;
+import com.communa.server.entity.ResidentEntity;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class ResidentServiceIntegrationTest {
+class ResidentEntityServiceIntegrationTest {
 
 	private static Date birthDate;
 	private final static String EMAIL = "email@email.com";
@@ -38,34 +38,34 @@ class ResidentServiceIntegrationTest {
 
 	@Test
 	void testRegisterResident() {
-		Resident resident = new Resident();
-		resident.setBirthDate(birthDate);
-		resident.setEmail(EMAIL);
-		resident.setPassword(PASSWORD);
-		resident.setName(NAME);
-		resident.setSurname(SURNAME);
+		ResidentEntity residentEntity = new ResidentEntity();
+		residentEntity.setBirthDate(birthDate);
+		residentEntity.setEmail(EMAIL);
+		residentEntity.setPassword(PASSWORD);
+		residentEntity.setName(NAME);
+		residentEntity.setSurname(SURNAME);
 
-		Resident savedResident = residentService.registerResident(resident);
+		ResidentEntity savedResidentEntity = residentService.registerResident(residentEntity);
 
-		assertNotNull(savedResident);
-		assertNotNull(resident.getId());
-		assertEquals(birthDate, savedResident.getBirthDate());
-		assertEquals(EMAIL, savedResident.getEmail());
-		assertEquals(NAME, savedResident.getName());
-		assertEquals(SURNAME, savedResident.getSurname());
+		assertNotNull(savedResidentEntity);
+		assertNotNull(residentEntity.getId());
+		assertEquals(birthDate, savedResidentEntity.getBirthDate());
+		assertEquals(EMAIL, savedResidentEntity.getEmail());
+		assertEquals(NAME, savedResidentEntity.getName());
+		assertEquals(SURNAME, savedResidentEntity.getSurname());
 	}
 
 	@Test()
 	void testRegisterResidentWithNonValidAge() {
-		Resident resident = new Resident();
-		resident.setBirthDate(Calendar.getInstance().getTime());
-		resident.setEmail(EMAIL);
-		resident.setPassword(PASSWORD);
-		resident.setName(NAME);
-		resident.setSurname(SURNAME);
+		ResidentEntity residentEntity = new ResidentEntity();
+		residentEntity.setBirthDate(Calendar.getInstance().getTime());
+		residentEntity.setEmail(EMAIL);
+		residentEntity.setPassword(PASSWORD);
+		residentEntity.setName(NAME);
+		residentEntity.setSurname(SURNAME);
 
 		assertThrows(RuntimeException.class,
-				() -> residentService.registerResident(resident));
+				() -> residentService.registerResident(residentEntity));
 	}
 
 }

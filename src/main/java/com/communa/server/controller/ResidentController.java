@@ -1,6 +1,6 @@
 package com.communa.server.controller;
 
-import com.communa.server.entity.Resident;
+import com.communa.server.entity.ResidentEntity;
 import com.communa.server.service.ResidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,22 +25,22 @@ public class ResidentController {
     private ResidentService residentService;
 
     @PostMapping("/v1/resident")
-    public ResponseEntity<Resident> registerResident(@Valid @RequestBody Resident resident) {
-        Resident savedResident = residentService.registerResident(resident);
+    public ResponseEntity<ResidentEntity> registerResident(@Valid @RequestBody ResidentEntity residentEntity) {
+        ResidentEntity savedResidentEntity = residentService.registerResident(residentEntity);
 
         return ResponseEntity
-                .created(getResidentUri(savedResident))
-                .body(savedResident);
+                .created(getResidentUri(savedResidentEntity))
+                .body(savedResidentEntity);
 
     }
 
     @GetMapping("/v1/resident")
-    public ResponseEntity<Set<Resident>> getResident() {
+    public ResponseEntity<Set<ResidentEntity>> getResident() {
         return ResponseEntity.ok(residentService.getResidents());
     }
 
     @GetMapping("/v1/resident/{id}")
-    public ResponseEntity<Resident> getResident(@PathVariable Long id) {
+    public ResponseEntity<ResidentEntity> getResident(@PathVariable Long id) {
         return ResponseEntity.ok(residentService.getResident(id));
     }
 
@@ -52,20 +52,19 @@ public class ResidentController {
     }
 
     @PutMapping("/v1/resident/{id}")
-    public ResponseEntity<Resident> updateResident(@PathVariable Long id, @RequestBody Resident resident) {
-        Resident savedResident = residentService.updateResident(id, resident);
+    public ResponseEntity<ResidentEntity> updateResident(@PathVariable Long id, @RequestBody ResidentEntity residentEntity) {
+        ResidentEntity savedResidentEntity = residentService.updateResident(id, residentEntity);
 
         return ResponseEntity
-                .created(getResidentUri(savedResident))
-                .body(savedResident);
+                .created(getResidentUri(savedResidentEntity))
+                .body(savedResidentEntity);
     }
 
-
-    private static URI getResidentUri(Resident resident) {
+    private static URI getResidentUri(ResidentEntity residentEntity) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(resident.getId())
+                .buildAndExpand(residentEntity.getId())
                 .toUri();
     }
 }

@@ -1,9 +1,9 @@
 package com.communa.server.service;
 
-import com.communa.server.exception.ResidentDuplicateException;
-import com.communa.server.exception.ResidentNotFoundException;
+import com.communa.server.exception.DuplicateException;
+import com.communa.server.exception.NotFoundException;
 import com.communa.server.repository.ResidentRepository;
-import com.communa.server.entity.Resident;
+import com.communa.server.entity.ResidentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,33 +18,33 @@ public class ResidentService {
     @Autowired
     private ResidentRepository residentRepository;
 
-    public Resident registerResident(Resident resident) {
-        if(residentRepository.findByEmail(resident.getEmail()).isPresent()){
-            throw new ResidentDuplicateException(format("Resident with email %s already exist", resident.getEmail()));
+    public ResidentEntity registerResident(ResidentEntity residentEntity) {
+        if(residentRepository.findByEmail(residentEntity.getEmail()).isPresent()){
+            throw new DuplicateException(format("Resident with email %s already exist", residentEntity.getEmail()));
         }
 
-        return residentRepository.save(resident);
+        return residentRepository.save(residentEntity);
     }
 
-    public Resident updateResident(Long id, Resident resident) {
+    public ResidentEntity updateResident(Long id, ResidentEntity residentEntity) {
         if(!residentRepository.existsById(id)) {
-            throw new ResidentNotFoundException(String.format("Resident with id %d not found", id));
+            throw new NotFoundException(String.format("Resident with id %d not found", id));
         }
-        resident.setId(id);
+        residentEntity.setId(id);
 
-        return residentRepository.save(resident);
+        return residentRepository.save(residentEntity);
     }
 
-    public Resident getResident(Long id) {
+    public ResidentEntity getResident(Long id) {
         return residentRepository.findById(id)
-                .orElseThrow(() -> new ResidentNotFoundException(String.format("Resident with id %d not found", id)));
+                .orElseThrow(() -> new NotFoundException(String.format("Resident with id %d not found", id)));
     }
 
-    public Set<Resident> getResidents() {
-        HashSet<Resident> residents = new HashSet<>();
-        residentRepository.findAll().forEach(residents::add);
+    public Set<ResidentEntity> getResidents() {
+        HashSet<ResidentEntity> residentEntiries = new HashSet<>();
+        residentRepository.findAll().forEach(residentEntiries::add);
 
-        return residents;
+        return residentEntiries;
     }
 
     public void deleteResident(Long id) {

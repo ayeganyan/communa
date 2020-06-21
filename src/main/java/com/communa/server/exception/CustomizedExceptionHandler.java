@@ -25,31 +25,22 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ResidentDuplicateException.class)
-    public final ResponseEntity<Object> handleUserNotFoundExceptions(
-            ResidentDuplicateException ex, WebRequest request) {
+    @ExceptionHandler(DuplicateException.class)
+    public final ResponseEntity<Object> handleDuplicateExceptions(
+            DuplicateException ex, WebRequest request) {
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(ResidentNotFoundException.class)
-    public final ResponseEntity<Object> handleUserNotFoundExceptions(
-            ResidentNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(NotFoundException.class)
+    public final ResponseEntity<Object> handleNotFoundExceptions(
+            NotFoundException ex, WebRequest request) {
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(OperationNotAuthorizedException.class)
-    public final ResponseEntity<Object> handleUserNotFoundExceptions(
-            OperationNotAuthorizedException ex, WebRequest request) {
-        ExceptionResponse exceptionResponse =
-                new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @Override

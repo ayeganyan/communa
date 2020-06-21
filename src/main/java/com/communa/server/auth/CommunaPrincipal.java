@@ -1,6 +1,6 @@
 package com.communa.server.auth;
 
-import com.communa.server.entity.Resident;
+import com.communa.server.entity.ResidentEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,12 +10,12 @@ import java.util.Collections;
 
 public class CommunaPrincipal implements UserDetails {
 
-    private final Resident resident;
+    private final ResidentEntity residentEntity;
 
 
-    public CommunaPrincipal(Resident resident) {
+    public CommunaPrincipal(ResidentEntity residentEntity) {
         super();
-        this.resident = resident;
+        this.residentEntity = residentEntity;
     }
 
     @Override
@@ -25,16 +25,16 @@ public class CommunaPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.resident.getPassword();
+        return this.residentEntity.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.resident.getEmail();
+        return this.residentEntity.getEmail();
     }
 
-    public Resident getResident() {
-        return resident;
+    public ResidentEntity getResidentEntity() {
+        return residentEntity;
     }
 
     @Override

@@ -2,12 +2,15 @@ package com.communa.server.entity;
 
 import com.communa.server.validation.Age;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -15,8 +18,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-@Table(name = "RESIDENT")
-public class Resident {
+public class ResidentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,6 +50,13 @@ public class Resident {
     @Age(from = 18, to = 35)
     @Column(name = "birthdate")
     private Date birthDate;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "community")
+    private CommunityEntity community;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "acquiredBy")
+    private ParkingLotEntity parkingLot;
 
     public Long getId() {
         return id;
