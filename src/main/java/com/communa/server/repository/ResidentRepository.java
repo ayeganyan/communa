@@ -16,11 +16,21 @@ public interface ResidentRepository extends CrudRepository<ResidentEntity, Long>
 
     @Transactional
     @Modifying
-    @Query("UPDATE ResidentEntity R SET R.community.id = :cId WHERE R.id = :rId")
-    Integer updateCommunity(@Param("rId") Long residentId, @Param("cId") Long communityId);
+    @Query("UPDATE ResidentEntity r SET r.community.id = :cId WHERE r.id = :rId")
+    Integer joinCommunity(@Param("rId") Long residentId, @Param("cId") Long communityId);
 
     @Transactional
     @Modifying
-    @Query("UPDATE ResidentEntity R SET R.community.id = NULL WHERE R.community.id = :rId")
+    @Query("UPDATE ResidentEntity r SET r.community.id = NULL WHERE r.community.id = :rId")
     void leaveCommunity(@Param("rId") Long residentId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE ResidentEntity r SET r.parkingLot.id = :pId WHERE r.id = :rId")
+    Integer acquireParkingLot(@Param("rId") Long residentId, @Param("pId") Long parkingLotId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE ResidentEntity r SET r.parkingLot.id = NULL WHERE r.community.id = :rId")
+    void releaseParkingLot(@Param("rId") Long parkingLotId);
 }

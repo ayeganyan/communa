@@ -22,6 +22,9 @@ public class ResidentService {
     @Autowired
     private CommunityRepository communityRepository;
 
+    @Autowired
+    private CommunityRepository parkingLotRepository;
+
     public ResidentEntity registerResident(ResidentEntity residentEntity) {
         if(residentRepository.findByEmail(residentEntity.getEmail()).isPresent()){
             throw new DuplicateException(format("Resident with email %s already exist", residentEntity.getEmail()));
@@ -32,7 +35,7 @@ public class ResidentService {
 
     public ResidentEntity updateResident(Long id, ResidentEntity residentEntity) {
         if(!residentRepository.existsById(id)) {
-            throw new NotFoundException(String.format("Resident with id %d not found", id));
+            throw new NotFoundException(format("Resident with id %d not found", id));
         }
         residentEntity.setId(id);
 
@@ -41,7 +44,7 @@ public class ResidentService {
 
     public ResidentEntity getResident(Long id) {
         return residentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Resident with id %d not found", id)));
+                .orElseThrow(() -> new NotFoundException(format("Resident with id %d not found", id)));
     }
 
     public Set<ResidentEntity> getResidents() {
@@ -58,17 +61,34 @@ public class ResidentService {
     public ResidentEntity joinCommunity(Long residentId, Long communityId) {
 
         if(!communityRepository.findById(communityId).isPresent()) {
-            throw new NotFoundException("Community with id %d not found");
+            throw new NotFoundException(format("Community with id %d not found", communityId));
         }
         if(!residentRepository.findById(residentId).isPresent()) {
-            throw new NotFoundException("Resident with id %d not found");
+            throw new NotFoundException(format("Resident with id %d not found", residentId));
         }
-        residentRepository.updateCommunity(residentId, communityId);
+        residentRepository.joinCommunity(residentId, communityId);
 
         return residentRepository.findById(residentId).get();
     }
 
     public void leaveCommunity(Long residentId) {
         residentRepository.leaveCommunity(residentId);
+    }
+
+    public ResidentEntity acquireParkingLot(Long residentId, Long parkingLotId) {
+
+        if(!parkingLotRepository.findById(parkingLotId).isPresent()) {
+            throw new NotFoundException(format("Parking lot with id %d not found", parkingLotId));
+        }
+        if(!residentRepository.findById(residentId).isPresent()) {
+            throw new NotFoundException(format("Resident with id %d not found", residentId));
+        }
+        residentRepository.acquireParkingLot(residentId, parkingLotId);
+
+        return residentRepository.findById(residentId).get();
+    }
+
+    public void releaseParkingLot(Long residentId) {
+        residentRepository.releaseParkingLot(residentId);
     }
 }

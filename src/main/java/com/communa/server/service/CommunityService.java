@@ -1,6 +1,7 @@
 package com.communa.server.service;
 
 import com.communa.server.entity.CommunityEntity;
+import com.communa.server.entity.ParkingLotEntity;
 import com.communa.server.entity.ResidentEntity;
 import com.communa.server.exception.DuplicateException;
 import com.communa.server.exception.NotFoundException;
@@ -57,5 +58,12 @@ public class CommunityService {
                 .orElseThrow(() -> new NotFoundException(format("Community with id %d not found", id)));
 
         return community.getResidentEntities();
+    }
+
+    public Set<ParkingLotEntity> getCommunityParkingLots(Long id) {
+        CommunityEntity community = communityRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(format("Community with id %d not found", id)));
+
+        return community.getParkingLots();
     }
 }

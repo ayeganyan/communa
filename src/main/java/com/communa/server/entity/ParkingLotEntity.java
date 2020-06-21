@@ -24,7 +24,7 @@ public class ParkingLotEntity {
     private String code;
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "acquiredBy")
+    @JoinColumn(name = "fk_resident")
     private ResidentEntity acquiredBy;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

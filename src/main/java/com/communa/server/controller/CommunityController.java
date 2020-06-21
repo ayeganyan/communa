@@ -1,6 +1,7 @@
 package com.communa.server.controller;
 
 import com.communa.server.entity.CommunityEntity;
+import com.communa.server.entity.ParkingLotEntity;
 import com.communa.server.entity.ResidentEntity;
 import com.communa.server.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,12 @@ public class CommunityController {
     public ResponseEntity<Set<ResidentEntity>> getCommunityResidents(@PathVariable Long id) {
         return ResponseEntity
                 .ok(communityService.getCommunityResidents(id));
+    }
+
+    @GetMapping("/v1/community/{id}/parkinglot")
+    public ResponseEntity<Set<ParkingLotEntity>> getCommunityParkingLots(@PathVariable Long id) {
+        return ResponseEntity
+                .ok(communityService.getCommunityParkingLots(id));
     }
 
     private static URI getCommunityUri(CommunityEntity communityEntity) {

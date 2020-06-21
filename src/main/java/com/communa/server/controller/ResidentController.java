@@ -34,7 +34,6 @@ public class ResidentController {
         return ResponseEntity
                 .created(getResidentUri(savedResidentEntity))
                 .body(savedResidentEntity);
-
     }
 
     @GetMapping("/v1/resident")
@@ -63,7 +62,6 @@ public class ResidentController {
                 .body(savedResidentEntity);
     }
 
-
     @PatchMapping("/v1/resident/{residentId}/community")
     public ResponseEntity<ResidentEntity> joinCommunity(@PathVariable Long residentId, @RequestParam() Long communityId) {
         ResidentEntity savedResidentEntity = residentService.joinCommunity(residentId, communityId);
@@ -76,6 +74,22 @@ public class ResidentController {
     @DeleteMapping("/v1/resident/{residentId}/community")
     public ResponseEntity<Object> leaveCommunity(@PathVariable Long residentId) {
         residentService.leaveCommunity(residentId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/v1/resident/{residentId}/parkinglot")
+    public ResponseEntity<ResidentEntity> acquireParkingLot(@PathVariable Long residentId, @RequestParam() Long parkingLotId) {
+        ResidentEntity savedResidentEntity = residentService.acquireParkingLot(residentId, parkingLotId);
+
+        return ResponseEntity
+                .created(getResidentUri(savedResidentEntity))
+                .body(savedResidentEntity);
+    }
+
+    @DeleteMapping("/v1/resident/{residentId}/parkinglot")
+    public ResponseEntity<Object> releaseParkingLot(@PathVariable Long residentId) {
+        residentService.releaseParkingLot(residentId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -58,10 +58,11 @@ public class ResidentEntity {
     private Date birthDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_Community")
+    @JoinColumn(name = "fk_community")
     private CommunityEntity community;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "acquiredBy")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_parkinglot")
     private ParkingLotEntity parkingLot;
 
     public Long getId() {

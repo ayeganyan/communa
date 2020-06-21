@@ -1,4 +1,4 @@
-insert into community(id, name, description) values (1, 'yeraz', 'Adonts st');
+insert into community(id, name, description) values (1, 'Yeraz', 'Adonts st');
 insert into community(id, name, description) values (2, 'Veratsnund', 'Monte Melkonyan st');
 
 insert into parkinglot(code, fk_community)  values ('V11', 1);
