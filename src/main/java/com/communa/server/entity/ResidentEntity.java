@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -18,10 +21,11 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
+@Table(name = "resident")
 public class ResidentEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -48,6 +52,7 @@ public class ResidentEntity {
     @Past
     @NotNull
     @Age(from = 18, to = 35)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "birthdate")
     private Date birthDate;
 

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 public class ParkingLotEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -23,6 +24,9 @@ public class ParkingLotEntity {
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     private ResidentEntity acquiredBy;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    private CommunityEntity community;
 
     public Long getId() {
         return id;

@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "community")
 public class CommunityEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -26,6 +26,10 @@ public class CommunityEntity {
     @Column(name = "residents")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     private Set<ResidentEntity> residentEntities;
+
+    @Column(name = "parkinglots")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
+    private Set<ParkingLotEntity> parkingLots;
 
     public Long getId() {
         return id;
