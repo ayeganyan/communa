@@ -5,6 +5,7 @@ import com.communa.server.validation.Age;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,8 +57,8 @@ public class ResidentEntity {
     @Column(name = "birthdate")
     private Date birthDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "community")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_Community")
     private CommunityEntity community;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "acquiredBy")
@@ -109,5 +110,21 @@ public class ResidentEntity {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public CommunityEntity getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(CommunityEntity community) {
+        this.community = community;
+    }
+
+    public ParkingLotEntity getParkingLot() {
+        return parkingLot;
+    }
+
+    public void setParkingLot(ParkingLotEntity parkingLot) {
+        this.parkingLot = parkingLot;
     }
 }

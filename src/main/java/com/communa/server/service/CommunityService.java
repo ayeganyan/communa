@@ -1,6 +1,7 @@
 package com.communa.server.service;
 
 import com.communa.server.entity.CommunityEntity;
+import com.communa.server.entity.ResidentEntity;
 import com.communa.server.exception.DuplicateException;
 import com.communa.server.exception.NotFoundException;
 import com.communa.server.repository.CommunityRepository;
@@ -49,5 +50,12 @@ public class CommunityService {
 
     public void deleteCommunity(Long id) {
         communityRepository.deleteById(id);
+    }
+
+    public Set<ResidentEntity> getCommunityResidents(Long id) {
+        CommunityEntity community = communityRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(format("Community with id %d not found", id)));
+
+        return community.getResidentEntities();
     }
 }

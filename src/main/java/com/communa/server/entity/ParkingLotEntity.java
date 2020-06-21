@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -23,9 +24,11 @@ public class ParkingLotEntity {
     private String code;
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "acquiredBy")
     private ResidentEntity acquiredBy;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "fk_community")
     private CommunityEntity community;
 
     public Long getId() {

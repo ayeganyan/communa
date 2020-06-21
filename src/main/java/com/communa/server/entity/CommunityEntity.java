@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
@@ -23,11 +24,9 @@ public class CommunityEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "residents")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     private Set<ResidentEntity> residentEntities;
 
-    @Column(name = "parkinglots")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     private Set<ParkingLotEntity> parkingLots;
 
@@ -61,5 +60,13 @@ public class CommunityEntity {
 
     public void setResidentEntities(Set<ResidentEntity> residentEntities) {
         this.residentEntities = residentEntities;
+    }
+
+    public Set<ParkingLotEntity> getParkingLots() {
+        return parkingLots;
+    }
+
+    public void setParkingLots(Set<ParkingLotEntity> parkingLots) {
+        this.parkingLots = parkingLots;
     }
 }

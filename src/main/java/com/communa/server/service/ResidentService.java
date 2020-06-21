@@ -45,10 +45,10 @@ public class ResidentService {
     }
 
     public Set<ResidentEntity> getResidents() {
-        HashSet<ResidentEntity> residentEntiries = new HashSet<>();
-        residentRepository.findAll().forEach(residentEntiries::add);
+        HashSet<ResidentEntity> residentEntries = new HashSet<>();
+        residentRepository.findAll().forEach(residentEntries::add);
 
-        return residentEntiries;
+        return residentEntries;
     }
 
     public void deleteResident(Long id) {

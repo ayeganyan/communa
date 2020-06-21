@@ -1,6 +1,7 @@
 package com.communa.server.controller;
 
 import com.communa.server.entity.CommunityEntity;
+import com.communa.server.entity.ResidentEntity;
 import com.communa.server.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,6 +59,12 @@ public class CommunityController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/v1/community/{id}/resident")
+    public ResponseEntity<Set<ResidentEntity>> getCommunityResidents(@PathVariable Long id) {
+        return ResponseEntity
+                .ok(communityService.getCommunityResidents(id));
+    }
+
     private static URI getCommunityUri(CommunityEntity communityEntity) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -65,5 +72,4 @@ public class CommunityController {
                 .buildAndExpand(communityEntity.getId())
                 .toUri();
     }
-
 }
