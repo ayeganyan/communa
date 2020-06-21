@@ -1,6 +1,7 @@
 package com.communa.server.service;
 
 import com.communa.server.entity.ResidentEntity;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ResidentEntityServiceIntegrationTest {
