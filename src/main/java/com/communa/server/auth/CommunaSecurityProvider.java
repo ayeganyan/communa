@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
+import static com.communa.server.conf.Urls.SWAGGER_URL;
+
 @Configuration
 @EnableWebSecurity
 public class CommunaSecurityProvider extends WebSecurityConfigurerAdapter {
@@ -40,6 +42,10 @@ public class CommunaSecurityProvider extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/v1/resident")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, SWAGGER_URL)
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
