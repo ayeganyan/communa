@@ -25,7 +25,7 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations="classpath:application.properties")
 @Transactional
 @Sql("classpath:test_data_for_resident.sql")
 public class ResidentEntityServiceIntegrationTest {
@@ -57,14 +57,6 @@ public class ResidentEntityServiceIntegrationTest {
 
 	@Before
 	public void beforeTest() {
-//		communityService.getCommunities().forEach(
-//				c -> communityService.deleteCommunity(c.getId())
-//		);
-//
-//		parkingLotService.getParkingLots().forEach(
-//				p -> parkingLotService.deleteParkingLot(p.getId())
-//		);
-
 		residentService.getResidents().forEach(
 				r -> residentService.deleteResident(r.getId())
 		);
