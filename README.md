@@ -8,7 +8,7 @@ $ docker-compose up --build
 ```
 Note: Some basic data are prefilled in database
 
-# Features
+### Features
  - CRUD operations on residents, communities, parking lots
  - Residents can join/leave communities, acquire/release parking lots
  - Communities can have several parking lots
@@ -21,7 +21,7 @@ Note: Some basic data are prefilled in database
  - Postgres
  - Docker
 
-# TODO
+### TODO
  - Implement role and user based authorization
  - Add more docs
  - Add more tests
