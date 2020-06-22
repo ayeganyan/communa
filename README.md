@@ -4,10 +4,9 @@ Communa is backend REST API used to making communities, book parking lots and et
 
 ### Getting started with Docker
 ```sh
-$ mvn clean install
 $ docker-compose up --build
 ```
-Note: Some basic data is prefilled in database
+Note: Some basic data are prefilled in database
 
 # Features
  - CRUD operations on residents, communities, parking lots

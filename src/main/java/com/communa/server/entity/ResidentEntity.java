@@ -57,11 +57,17 @@ public class ResidentEntity {
     @Column(name = "birthdate")
     private Date birthDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(name = "fk_community")
     private CommunityEntity community;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(name = "fk_parkinglot")
     private ParkingLotEntity parkingLot;
 

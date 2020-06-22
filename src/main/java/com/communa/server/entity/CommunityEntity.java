@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import java.util.Set;
 
 @Entity
-@JsonIgnoreProperties({"residentEntities"})
+@JsonIgnoreProperties(value = {"residents", "parkingLots"})
 @Table(name = "community")
 public class CommunityEntity {
     @Id
@@ -27,7 +27,7 @@ public class CommunityEntity {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
-    private Set<ResidentEntity> residentEntities;
+    private Set<ResidentEntity> residents;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     private Set<ParkingLotEntity> parkingLots;
@@ -56,12 +56,12 @@ public class CommunityEntity {
         this.description = description;
     }
 
-    public Set<ResidentEntity> getResidentEntities() {
-        return residentEntities;
+    public Set<ResidentEntity> getResidents() {
+        return residents;
     }
 
-    public void setResidentEntities(Set<ResidentEntity> residentEntities) {
-        this.residentEntities = residentEntities;
+    public void setResidents(Set<ResidentEntity> residentEntities) {
+        this.residents = residentEntities;
     }
 
     public Set<ParkingLotEntity> getParkingLots() {

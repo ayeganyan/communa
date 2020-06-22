@@ -57,7 +57,7 @@ public class CommunityService {
         CommunityEntity community = communityRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(format("Community with id %d not found", id)));
 
-        return community.getResidentEntities();
+        return community.getResidents();
     }
 
     public Set<ParkingLotEntity> getCommunityParkingLots(Long id) {

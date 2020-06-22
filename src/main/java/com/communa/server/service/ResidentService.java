@@ -1,8 +1,11 @@
 package com.communa.server.service;
 
+import com.communa.server.entity.CommunityEntity;
+import com.communa.server.entity.ParkingLotEntity;
 import com.communa.server.exception.DuplicateException;
 import com.communa.server.exception.NotFoundException;
 import com.communa.server.repository.CommunityRepository;
+import com.communa.server.repository.ParkingLotRepository;
 import com.communa.server.repository.ResidentRepository;
 import com.communa.server.entity.ResidentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,7 @@ public class ResidentService {
     private CommunityRepository communityRepository;
 
     @Autowired
-    private CommunityRepository parkingLotRepository;
+    private ParkingLotRepository parkingLotRepository;
 
     public ResidentEntity registerResident(ResidentEntity residentEntity) {
         if(residentRepository.findByEmail(residentEntity.getEmail()).isPresent()){
@@ -60,35 +63,51 @@ public class ResidentService {
 
     public ResidentEntity joinCommunity(Long residentId, Long communityId) {
 
-        if(!communityRepository.findById(communityId).isPresent()) {
-            throw new NotFoundException(format("Community with id %d not found", communityId));
-        }
-        if(!residentRepository.findById(residentId).isPresent()) {
-            throw new NotFoundException(format("Resident with id %d not found", residentId));
-        }
-        residentRepository.joinCommunity(residentId, communityId);
+        ResidentEntity residentEntity = residentRepository.findById(residentId).orElseThrow(
+                () -> new NotFoundException(format("Resident with id %d not found", residentId))
+        );
 
-        return residentRepository.findById(residentId).get();
+        CommunityEntity communityEntity = communityRepository.findById(communityId).orElseThrow(
+                () -> new NotFoundException(format("Community with id %d not found", communityId))
+        );
+        residentEntity.setCommunity(communityEntity);
+        return residentRepository.save(residentEntity);
+
+        // The method below does not work properly that's why I am using non effective method
+        // residentRepository.joinCommunity(residentId, communityId);
     }
 
     public void leaveCommunity(Long residentId) {
         residentRepository.leaveCommunity(residentId);
+
+        ResidentEntity residentEntity = residentRepository.findById(residentId).orElseThrow(
+                () -> new NotFoundException(format("Resident with id %d not found", residentId))
+        );
+        residentEntity.setCommunity(null);
+        residentRepository.save(residentEntity);
     }
 
     public ResidentEntity acquireParkingLot(Long residentId, Long parkingLotId) {
+        ResidentEntity residentEntity = residentRepository.findById(residentId).orElseThrow(
+                () -> new NotFoundException(format("Resident with id %d not found", residentId))
+        );
+        ParkingLotEntity parkingLotEntity = parkingLotRepository.findById(parkingLotId).orElseThrow(
+                () -> new NotFoundException(format("Parking lot with id %d not found", parkingLotId))
+        );
 
-        if(!parkingLotRepository.findById(parkingLotId).isPresent()) {
-            throw new NotFoundException(format("Parking lot with id %d not found", parkingLotId));
-        }
-        if(!residentRepository.findById(residentId).isPresent()) {
-            throw new NotFoundException(format("Resident with id %d not found", residentId));
-        }
-        residentRepository.acquireParkingLot(residentId, parkingLotId);
+        residentEntity.setParkingLot(parkingLotEntity);
+        return residentRepository.save(residentEntity);
 
-        return residentRepository.findById(residentId).get();
+        //residentRepository.acquireParkingLot(residentId, parkingLotId);
     }
 
     public void releaseParkingLot(Long residentId) {
-        residentRepository.releaseParkingLot(residentId);
+        ResidentEntity residentEntity = residentRepository.findById(residentId).orElseThrow(
+                () -> new NotFoundException(format("Resident with id %d not found", residentId))
+        );
+        residentEntity.setParkingLot(null);
+
+        residentRepository.save(residentEntity);
+        //residentRepository.releaseParkingLot(residentId);
     }
 }

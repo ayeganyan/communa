@@ -3,6 +3,7 @@ package com.communa.server.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,11 +24,19 @@ public class ParkingLotEntity {
     @Column(name = "code")
     private String code;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            optional = true
+    )
     @JoinColumn(name = "fk_resident")
     private ResidentEntity acquiredBy;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            optional = false
+    )
     @JoinColumn(name = "fk_community")
     private CommunityEntity community;
 
@@ -45,5 +54,21 @@ public class ParkingLotEntity {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public ResidentEntity getAcquiredBy() {
+        return acquiredBy;
+    }
+
+    public void setAcquiredBy(ResidentEntity acquiredBy) {
+        this.acquiredBy = acquiredBy;
+    }
+
+    public CommunityEntity getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(CommunityEntity community) {
+        this.community = community;
     }
 }
