@@ -2,23 +2,26 @@ package com.communa.server.service;
 
 import com.communa.server.entity.ResidentEntity;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class ResidentEntityServiceIntegrationTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest()
+@TestPropertySource(locations="classpath:test.properties")
+public class ResidentEntityServiceIntegrationTest {
 
 	private static Date birthDate;
 	private final static String EMAIL = "email@email.com";
@@ -29,17 +32,16 @@ class ResidentEntityServiceIntegrationTest {
 	@Autowired
 	private ResidentService residentService;
 
-	@BeforeAll
-	static void initialize() {
+	@BeforeClass
+	public static void initialize() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy");
 		try {
 			birthDate = df.parse("2000");
 		} catch (ParseException ignore) {}
 	}
 
-
 	@Test
-	void testRegisterResident() {
+	public void testRegisterResident() {
 		ResidentEntity residentEntity = new ResidentEntity();
 		residentEntity.setBirthDate(birthDate);
 		residentEntity.setEmail(EMAIL);
@@ -57,8 +59,8 @@ class ResidentEntityServiceIntegrationTest {
 		assertEquals(SURNAME, savedResidentEntity.getSurname());
 	}
 
-	@Test()
-	void testRegisterResidentWithNonValidAge() {
+	@Test(expected = RuntimeException.class)
+	public void testRegisterResidentWithNonValidAge() {
 		ResidentEntity residentEntity = new ResidentEntity();
 		residentEntity.setBirthDate(Calendar.getInstance().getTime());
 		residentEntity.setEmail(EMAIL);
@@ -66,8 +68,7 @@ class ResidentEntityServiceIntegrationTest {
 		residentEntity.setName(NAME);
 		residentEntity.setSurname(SURNAME);
 
-		assertThrows(RuntimeException.class,
-				() -> residentService.registerResident(residentEntity));
+		residentService.registerResident(residentEntity);
 	}
 
 }
